@@ -5,22 +5,22 @@ from threading import Thread
 from urllib.parse import quote
 from os import walk, startfile
 from webbrowser import open as web_open
-from PySide6.QtGui import Qt, QIcon, QStatusTipEvent, QCursor, QAction, QGuiApplication
-from PySide6.QtCore import Slot, QFileInfo
+from PyQt5.QtWidgets import QAction
+from PyQt5.QtGui import QIcon, QStatusTipEvent, QCursor, QGuiApplication
+from PyQt5.QtCore import pyqtSlot, QFileInfo, Qt
 from ui_FileSearchEngine import Ui_MainWindow
-from PySide6.QtWidgets import (
+from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QFileDialog, QMessageBox,
     QTreeWidgetItem, QMenu, QFileIconProvider)
 from viewerWindow import ViewerWindow
-from playerWindow import PlayerWindow
+# from playerWindow import PlayerWindow
 from imageViewer import ImageViewer
 
 
 class MainWindow(QMainWindow):
-
-    file_num = 0       # 文件数目
-    cache_list = []    # 缓存列表
-    adding = False     # 添加中标志
+    file_num = 0  # 文件数目
+    cache_list = []  # 缓存列表
+    adding = False  # 添加中标志
     searching = False  # 搜索中标志
 
     def __init__(self):
@@ -32,8 +32,8 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
 
         self.viewer_window = ViewerWindow()  # 创建一个文本查看器窗口对象
-        self.player_window = PlayerWindow()  # 创建一个播放器窗口对象
-        self.image_window = ImageViewer()    # 创建一个图像查看器窗口对象
+        # self.player_window = PlayerWindow()  # 创建一个播放器窗口对象
+        self.image_window = ImageViewer()  # 创建一个图像查看器窗口对象
 
         # 设置TreeWidget每个标题的对应大小
         self.ui.outputTreeWidget.setColumnWidth(0, 200)
@@ -124,7 +124,7 @@ class MainWindow(QMainWindow):
 
         text = self.ui.upLineEdit.text()  # 获取输入框路径
         word = self.ui.downLabel.text().split("：")[0]  # 获取标签文本
-        text_type = self.ui.downLineEdit.text()   # 获取输入框内容类型
+        text_type = self.ui.downLineEdit.text()  # 获取输入框内容类型
         path = Path("C:/" if not text else text)  # 判断路径输入框内容，如果为空则用C:/，否则用文本里的路径
 
         # 判断路径是否有存在，如果路径不存在则提示并退出
@@ -309,7 +309,7 @@ class MainWindow(QMainWindow):
             ]:
                 QMessageBox.warning(self, "警告", "不支持此类型文件\n请到'工具'->'音频播放器' 里查看具体支持类型")
                 return
-            self.player_window = PlayerWindow()  # 名称点击新建对象，防止堆积音乐
+            # self.player_window = PlayerWindow()  # 名称点击新建对象，防止堆积音乐
             self.player_window.open(file_path)
         self.player_window.show()  # 显示窗口
 
@@ -324,7 +324,7 @@ class MainWindow(QMainWindow):
         self.ui.searchButton.setText("开始搜索")
         self.finish()
 
-    @Slot()
+    @pyqtSlot()
     def change_widgets_status(self, is_hide=False):
         """更改部件状态及窗口大小"""
         if is_hide:
@@ -339,7 +339,7 @@ class MainWindow(QMainWindow):
             self.ui.browseButton.show()
             self.ui.outputTreeWidget.show()
 
-    @Slot()
+    @pyqtSlot()
     def change_icon(self, action):
         """改变图标"""
         off = QIcon("./icons/radio-circle.png")
@@ -350,12 +350,12 @@ class MainWindow(QMainWindow):
         self.ui.actionSearchType.setIcon(off)
         action.setIcon(on)
 
-    @Slot()
+    @pyqtSlot()
     def help(self):
         """显示帮助信息"""
         Thread(target=lambda: web_open(HElP)).start()
 
-    @Slot()
+    @pyqtSlot()
     def about(self):
         """显示关于信息"""
         QMessageBox.about(self, "关于作者", ABOUT)
@@ -397,4 +397,4 @@ if __name__ == '__main__':
     app = QApplication([])
     main_window = MainWindow()
     main_window.show()
-    app.exec()
+    app.exec_()

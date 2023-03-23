@@ -1,10 +1,10 @@
 """参考于Qt官网：https://doc.qt.io/qtforpython/examples/example_widgets_richtext_syntaxhighlighter.html"""
 import re
 import codecs
-from PySide6.QtCore import Qt
-from PySide6.QtGui import (QColor, QFont, QFontDatabase, QKeySequence,
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import (QColor, QFont, QFontDatabase, QKeySequence,
                            QSyntaxHighlighter, QTextCharFormat)
-from PySide6.QtWidgets import QApplication, QFileDialog, QMainWindow, QPlainTextEdit, QMessageBox
+from PyQt5.QtWidgets import QApplication, QFileDialog, QMainWindow, QPlainTextEdit, QMessageBox
 
 
 class ViewerWindow(QMainWindow):

@@ -8,19 +8,21 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
-    QCursor, QFont, QFontDatabase, QGradient,
-    QIcon, QImage, QKeySequence, QLinearGradient,
-    QPainter, QPalette, QPixmap, QRadialGradient,
-    QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFrame, QGridLayout,
-    QGroupBox, QHBoxLayout, QHeaderView, QLabel,
-    QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
-    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+from PyQt5.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+                          QMetaObject, QObject, QPoint, QRect,
+                          QSize, QTime, QUrl, Qt)
+from PyQt5.QtGui import (QBrush, QColor, QConicalGradient,
+                         QCursor, QFont, QFontDatabase, QGradient,
+                         QIcon, QImage, QKeySequence, QLinearGradient,
+                         QPainter, QPalette, QPixmap, QRadialGradient,
+                         QTransform)
+from PyQt5.QtWidgets import (QAbstractScrollArea, QApplication, QFrame, QGridLayout,
+                             QGroupBox, QHBoxLayout, QHeaderView, QLabel,
+                             QLineEdit, QMainWindow, QMenu, QMenuBar,
+                             QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
+                             QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import QAction
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -31,9 +33,9 @@ class Ui_MainWindow(object):
         icon.addFile(u"icons/icon.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"QTreeView {\n"
-"	border:none\n"
-"}\n"
-"")
+                                 "	border:none\n"
+                                 "}\n"
+                                 "")
         self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName(u"actionAbout")
         self.actionHelp = QAction(MainWindow)
@@ -89,7 +91,7 @@ class Ui_MainWindow(object):
         self.groupBox.setContextMenuPolicy(Qt.DefaultContextMenu)
         self.groupBox.setLayoutDirection(Qt.LeftToRight)
         self.groupBox.setAutoFillBackground(False)
-        self.groupBox.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
+        self.groupBox.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
         self.groupBox.setFlat(False)
         self.verticalLayout = QVBoxLayout(self.groupBox)
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -131,16 +133,13 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.browseButton, 0, 2, 1, 1)
 
-
         self.verticalLayout.addLayout(self.gridLayout)
-
 
         self.horizontalLayout.addWidget(self.groupBox)
 
         self.horizontalSpacer_2 = QSpacerItem(10, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_2)
-
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
@@ -158,9 +157,9 @@ class Ui_MainWindow(object):
         self.outputTreeWidget = QTreeWidget(self.centralwidget)
         __qtreewidgetitem = QTreeWidgetItem()
         __qtreewidgetitem.setTextAlignment(3, Qt.AlignCenter);
-        __qtreewidgetitem.setTextAlignment(2, Qt.AlignTrailing|Qt.AlignVCenter);
-        __qtreewidgetitem.setTextAlignment(1, Qt.AlignLeading|Qt.AlignVCenter);
-        __qtreewidgetitem.setTextAlignment(0, Qt.AlignLeading|Qt.AlignVCenter);
+        __qtreewidgetitem.setTextAlignment(2, Qt.AlignTrailing | Qt.AlignVCenter);
+        __qtreewidgetitem.setTextAlignment(1, Qt.AlignLeading | Qt.AlignVCenter);
+        __qtreewidgetitem.setTextAlignment(0, Qt.AlignLeading | Qt.AlignVCenter);
         self.outputTreeWidget.setHeaderItem(__qtreewidgetitem)
         self.outputTreeWidget.setObjectName(u"outputTreeWidget")
         self.outputTreeWidget.setEnabled(True)
@@ -183,7 +182,6 @@ class Ui_MainWindow(object):
         self.outputTreeWidget.header().setHighlightSections(False)
 
         self.verticalLayout_2.addWidget(self.outputTreeWidget)
-
 
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
 
@@ -221,31 +219,41 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
+
     # setupUi
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Anything", None))
         self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"\u5173\u4e8e\u4f5c\u8005", None))
-#if QT_CONFIG(shortcut)
+        # if QT_CONFIG(shortcut)
         self.actionAbout.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Shift+A", None))
-#endif // QT_CONFIG(shortcut)
+        # endif // QT_CONFIG(shortcut)
         self.actionHelp.setText(QCoreApplication.translate("MainWindow", u"\u67e5\u770b\u7528\u6cd5", None))
-#if QT_CONFIG(shortcut)
+        # if QT_CONFIG(shortcut)
         self.actionHelp.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+H", None))
-#endif // QT_CONFIG(shortcut)
+        # endif // QT_CONFIG(shortcut)
         self.actionSearchType.setText(QCoreApplication.translate("MainWindow", u"\u7c7b\u578b\u641c\u7d22", None))
         self.actionSearchName.setText(QCoreApplication.translate("MainWindow", u"\u540d\u79f0\u641c\u7d22", None))
         self.actionTextViewer.setText(QCoreApplication.translate("MainWindow", u"\u6587\u672c\u67e5\u770b\u5668", None))
-        self.actionPlayerViewer.setText(QCoreApplication.translate("MainWindow", u"\u97f3\u9891\u64ad\u653e\u5668", None))
-        self.actionImageViewer.setText(QCoreApplication.translate("MainWindow", u"\u56fe\u50cf\u67e5\u770b\u5668", None))
+        self.actionPlayerViewer.setText(
+            QCoreApplication.translate("MainWindow", u"\u97f3\u9891\u64ad\u653e\u5668", None))
+        self.actionImageViewer.setText(
+            QCoreApplication.translate("MainWindow", u"\u56fe\u50cf\u67e5\u770b\u5668", None))
         self.actionSearchWeb.setText(QCoreApplication.translate("MainWindow", u"Web\u641c\u7d22", None))
-        self.actionSearchKey.setText(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6\u5173\u952e\u5b57\u641c\u7d22", None))
-#if QT_CONFIG(accessibility)
+        self.actionSearchKey.setText(
+            QCoreApplication.translate("MainWindow", u"\u6587\u4ef6\u5173\u952e\u5b57\u641c\u7d22", None))
+        # if QT_CONFIG(accessibility)
         self.groupBox.setAccessibleName("")
-#endif // QT_CONFIG(accessibility)
-        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"\u586b\u5199\u5185\u5bb9\u540e\u70b9\u51fb\u5f00\u59cb\u641c\u7d22", None))
-        self.upLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u8bf7\u8f93\u5165\u6587\u4ef6\u8def\u5f84\uff08\u9ed8\u8ba4C:/\uff09", None))
-        self.downLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u8bf7\u8f93\u5165\u6587\u4ef6\u7c7b\u578b\uff0c\u5217\u5982exe", None))
+        # endif // QT_CONFIG(accessibility)
+        self.groupBox.setTitle(QCoreApplication.translate("MainWindow",
+                                                          u"\u586b\u5199\u5185\u5bb9\u540e\u70b9\u51fb\u5f00\u59cb\u641c\u7d22",
+                                                          None))
+        self.upLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow",
+                                                                      u"\u8bf7\u8f93\u5165\u6587\u4ef6\u8def\u5f84\uff08\u9ed8\u8ba4C:/\uff09",
+                                                                      None))
+        self.downLineEdit.setPlaceholderText(
+            QCoreApplication.translate("MainWindow", u"\u8bf7\u8f93\u5165\u6587\u4ef6\u7c7b\u578b\uff0c\u5217\u5982exe",
+                                       None))
         self.downLabel.setText(QCoreApplication.translate("MainWindow", u"\u7c7b\u578b\uff1a", None))
         self.upLabel.setText(QCoreApplication.translate("MainWindow", u"\u8def\u5f84\uff1a", None))
         self.searchButton.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u641c\u7d22", None))
@@ -261,4 +269,3 @@ class Ui_MainWindow(object):
         self.helpMenu.setTitle(QCoreApplication.translate("MainWindow", u"\u5e2e\u52a9(&H)", None))
         self.aboutMenu.setTitle(QCoreApplication.translate("MainWindow", u"\u5173\u4e8e(&A)", None))
     # retranslateUi
-

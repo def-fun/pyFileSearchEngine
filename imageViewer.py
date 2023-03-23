@@ -1,12 +1,12 @@
 """参考于Qt官网：https://doc.qt.io/qtforpython/examples/example_widgets__imageviewer.html"""
-from PySide6.QtPrintSupport import QPrintDialog, QPrinter
-from PySide6.QtWidgets import (QApplication, QDialog, QFileDialog, QLabel,
+from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
+from PyQt5.QtWidgets import (QApplication, QDialog, QFileDialog, QLabel,
                                QMainWindow, QMessageBox, QScrollArea,
                                QSizePolicy)
-from PySide6.QtGui import (QColorSpace,
+from PyQt5.QtGui import (QColorSpace,
                            QImageReader, QImageWriter, QKeySequence,
                            QPalette, QPainter, QPixmap, QGuiApplication)
-from PySide6.QtCore import QDir, QStandardPaths, Qt, Slot
+from PyQt5.QtCore import QDir, QStandardPaths, Qt, pyqtSlot
 
 
 class ImageViewer(QMainWindow):
@@ -82,7 +82,7 @@ class ImageViewer(QMainWindow):
         self.statusBar().showMessage(f'保存至 "{native_filename}"')
         return True
 
-    @Slot()
+    @pyqtSlot()
     def _open(self):
         dialog = QFileDialog(self, "打开文件")
         self._initialize_image_filedialog(dialog, QFileDialog.AcceptOpen)
@@ -90,7 +90,7 @@ class ImageViewer(QMainWindow):
                and not self.load_file(dialog.selectedFiles()[0])):
             pass
 
-    @Slot()
+    @pyqtSlot()
     def _save_as(self):
         dialog = QFileDialog(self, "另存为")
         self._initialize_image_filedialog(dialog, QFileDialog.AcceptSave)
@@ -98,7 +98,7 @@ class ImageViewer(QMainWindow):
                and not self._save_file(dialog.selectedFiles()[0])):
             pass
 
-    @Slot()
+    @pyqtSlot()
     def _print_(self):
         printer = QPrinter()
         dialog = QPrintDialog(printer, self)
@@ -112,11 +112,11 @@ class ImageViewer(QMainWindow):
                 painter.setWindow(pixmap.rect())
                 painter.drawPixmap(0, 0, pixmap)
 
-    @Slot()
+    @pyqtSlot()
     def _copy(self):
         QGuiApplication.clipboard().setImage(self._image)
 
-    @Slot()
+    @pyqtSlot()
     def _paste(self):
         new_image = QGuiApplication.clipboard().image()
         if new_image.isNull():
@@ -130,20 +130,20 @@ class ImageViewer(QMainWindow):
             message = f"从剪贴板获取图像，{w}x{h}，描述: {d}"
             self.statusBar().showMessage(message)
 
-    @Slot()
+    @pyqtSlot()
     def _zoom_in(self):
         self._scale_image(1.25)
 
-    @Slot()
+    @pyqtSlot()
     def _zoom_out(self):
         self._scale_image(0.8)
 
-    @Slot()
+    @pyqtSlot()
     def _normal_size(self):
         self._image_label.adjustSize()
         self._scale_factor = 1.0
 
-    @Slot()
+    @pyqtSlot()
     def _fit_to_window(self):
         fit_to_window = self._fit_to_window_act.isChecked()
         self._scroll_area.setWidgetResizable(fit_to_window)
@@ -151,7 +151,7 @@ class ImageViewer(QMainWindow):
             self._normal_size()
         self._update_actions()
 
-    @Slot()
+    @pyqtSlot()
     def _full_screen(self):
         self._scroll_area.setWidgetResizable(True)
         self.menuBar().hide()
