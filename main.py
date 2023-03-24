@@ -1,3 +1,4 @@
+# todo 比较tree/table/list widget的性能
 import time
 from about import *
 from pathlib import Path
@@ -15,6 +16,25 @@ from PyQt5.QtWidgets import (
 from viewerWindow import ViewerWindow
 # from playerWindow import PlayerWindow
 from imageViewer import ImageViewer
+from datasize import DataSize
+
+SIZE_COLUMN = 2
+
+
+class TreeWidgetItem(QTreeWidgetItem):
+    """
+    support sort items by filesize, see https://stackoverflow.com/questions/66766643/how-to-sort-qtreewidget-column
+    """
+
+    def __lt__(self, other):
+        column = self.treeWidget().sortColumn()
+        if column == SIZE_COLUMN:
+            # DataSize does not accept space between the quantity and the unit,
+            # so we eliminate the spaces:
+            text_with_spaces = self.text(column).replace(" ", "")
+            other_text_with_spaces = other.text(column).replace(" ", "")
+            return DataSize(text_with_spaces) < DataSize(other_text_with_spaces)
+        return super(TreeWidgetItem, self).__lt__(other)
 
 
 class MainWindow(QMainWindow):
@@ -40,6 +60,7 @@ class MainWindow(QMainWindow):
         self.ui.outputTreeWidget.setColumnWidth(1, 50)
         self.ui.outputTreeWidget.setColumnWidth(2, 80)
         self.ui.outputTreeWidget.setColumnWidth(3, 150)
+        self.ui.outputTreeWidget.setSortingEnabled(True)  # 支持点击标题排序
 
         # 打开右键菜单策略
         self.ui.outputTreeWidget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -224,10 +245,11 @@ class MainWindow(QMainWindow):
 
     def insert_row(self, content):
         """把获取的文件内容添加到TreeWidget
+        fixme 文件大于约２万时，添加过程会异常退出
         :param content:格式：[文件名, 文件类型, 文件大小, 修改时间, 文件路径]
         """
         icon = QIcon(QFileIconProvider().icon(QFileInfo(content[-1])))  # 获取文件在系统下显示的图标
-        item = QTreeWidgetItem(self.ui.outputTreeWidget, content)
+        item = TreeWidgetItem(self.ui.outputTreeWidget, content)   # 重写TreeWidgetItem，支持排序
         item.setIcon(0, icon)  # 设置图标
         item.setTextAlignment(2, Qt.AlignTrailing | Qt.AlignVCenter)  # 文件大小（索引为2）设置为水平右对齐
         item.setTextAlignment(3, Qt.AlignCenter | Qt.AlignVCenter)  # 修改时间（索引为3）设置为水平居中对齐
@@ -237,12 +259,15 @@ class MainWindow(QMainWindow):
         """把缓存列表里的内容解压到TreeWidget"""
         self.adding = True
         self.ui.statusbar.showMessage("搜索完成，添加中......")
+        print(len(self.cache_list))
+        t0 = time.time()
         for file in self.cache_list:
             try:
                 self.insert_row(self.get_file_inform(file))
             except FileNotFoundError:
                 continue
         self.adding = False
+        print(time.time() - t0)
 
     def process_trigger(self, q):
         """根据点击处理对应事件"""
@@ -310,8 +335,8 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, "警告", "不支持此类型文件\n请到'工具'->'音频播放器' 里查看具体支持类型")
                 return
             # self.player_window = PlayerWindow()  # 名称点击新建对象，防止堆积音乐
-            self.player_window.open(file_path)
-        self.player_window.show()  # 显示窗口
+            # self.player_window.open(file_path)
+        # self.player_window.show()  # 显示窗口
 
     def open_in_image_windows(self, path=None):
         """打开图片查看器窗口"""
